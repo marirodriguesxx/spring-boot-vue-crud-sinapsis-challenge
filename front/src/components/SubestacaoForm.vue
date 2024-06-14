@@ -14,19 +14,24 @@ const router = useRouter()
 
 const codigo = ref('')
 const nome = ref('')
-const latitude = ref()
-const longitude = ref()
+const latitude = ref('')
+const longitude = ref('')
 
 const submitForm = async () => {
+  console.log(props.subestacaoId)
   const url = props.isEditing
     ? `http://localhost:8080/subestacao/update/${props.subestacaoId}?codigo=${codigo.value}&nome=${nome.value}&latitude=${latitude.value}&longitude=${longitude.value}`
     : `http://localhost:8080/subestacao/add?codigo=${codigo.value}&nome=${nome.value}&latitude=${latitude.value}&longitude=${longitude.value}`
-
   try {
-    await axios.post(url)
+    if (props.isEditing) {
+      await axios.put(url)
+    } else {
+      await axios.post(url)
+    }
     router.push('/subestacoes')
   } catch (error) {
     console.error('Erro ao salvar subestação:', error)
+    alert('Erro ao salvar subestação. Por favor, tente novamente.')
   }
 }
 
@@ -34,14 +39,16 @@ const loadSubestacao = async () => {
   if (props.isEditing && props.subestacaoId !== undefined) {
     const url = `http://localhost:8080/subestacao/${props.subestacaoId}`
     try {
+      console.log('URL: ', url)
       const response = await axios.get(url)
       const subestacao: Subestacao = response.data
       codigo.value = subestacao.codigo
       nome.value = subestacao.nome
-      latitude.value = subestacao.latitude
-      longitude.value = subestacao.longitude
+      latitude.value = subestacao.latitude.toString()
+      longitude.value = subestacao.longitude.toString()
     } catch (error) {
       console.error('Erro ao buscar subestação:', error)
+      alert('Erro ao editar subestação. Por favor, tente novamente.')
     }
   }
 }
@@ -59,7 +66,7 @@ watch(() => props.subestacaoId, loadSubestacao)
     <div class="content">
       <h1>{{ isEditing ? 'Editar Subestação' : 'Adicionar Nova Subestação' }}</h1>
       <form @submit.prevent="submitForm" class="form">
-        <div v-if="!isEditing">
+        <div>
           <label for="codigo">Código:</label>
           <input type="text" v-model="codigo" id="codigo" required />
         </div>

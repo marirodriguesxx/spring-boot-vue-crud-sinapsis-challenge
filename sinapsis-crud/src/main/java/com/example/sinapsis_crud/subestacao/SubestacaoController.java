@@ -10,13 +10,13 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(path="/subestacao")
-@CrossOrigin(origins = "http://localhost:5173/")
 public class SubestacaoController {
 
     @Autowired
     private SubestacaoRepository subestacaoRepository;
 
     @PostMapping(path="/add")
+    @CrossOrigin(origins = "http://localhost:5173/")
     @ResponseBody
     public ResponseEntity<String> addNewSubestacao (@RequestParam String codigo,
                                                     @RequestParam String nome,
@@ -36,6 +36,7 @@ public class SubestacaoController {
     }
 
     @GetMapping(path="/all")
+    @CrossOrigin(origins = "http://localhost:5173/")
     public ResponseEntity<Iterable<Subestacao>> getAllSubestacoes() {
         try {
             return new ResponseEntity<>(subestacaoRepository.findAll(), HttpStatus.OK);
@@ -44,7 +45,19 @@ public class SubestacaoController {
         }
     }
 
+    @GetMapping(path="/{id}")
+    @CrossOrigin(origins = "http://localhost:5173/")
+    public ResponseEntity<Subestacao> getSubestacaoById(@PathVariable Integer id) {
+        try {
+            Optional<Subestacao> optionalSubestacao = subestacaoRepository.findById(id);
+            return optionalSubestacao.map(subestacao -> new ResponseEntity<>(subestacao, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping(path="/update/{id}")
+    @CrossOrigin(origins = "http://localhost:5173/")
     @ResponseBody
     public ResponseEntity<String> updateSubestacao(@PathVariable Integer id,
                                                    @RequestParam String codigo,
@@ -70,6 +83,7 @@ public class SubestacaoController {
     }
 
     @DeleteMapping(path="/delete/{id}")
+    @CrossOrigin(origins = "http://localhost:5173/")
     @ResponseBody
     public ResponseEntity<String> deleteSubestacao(@PathVariable Integer id) {
         try {
