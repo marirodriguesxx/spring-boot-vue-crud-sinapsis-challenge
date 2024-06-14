@@ -1,19 +1,19 @@
-package com.example.sinapsis_crud;
+package com.example.sinapsis_crud.subestacao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(path="/sinapsis")
-public class UserController {
+@RequestMapping(path="/subestacao")
+public class SubestacaoController {
 
     @Autowired
     private SubestacaoRepository subestacaoRepository;
 
     @PostMapping(path="/add")
     @ResponseBody
-    public String addNewUser (@RequestParam String codigo,
+    public String addNewSubestacao (@RequestParam String codigo,
                                             @RequestParam String nome,
                                             @RequestParam Double latitude,
                                             @RequestParam Double longitude) {
@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping(path="/all")
-    public @ResponseBody Iterable<Subestacao> getAllUsers() {
+    public @ResponseBody Iterable<Subestacao> getAllSubestacoes() {
         return subestacaoRepository.findAll();
     }
 }

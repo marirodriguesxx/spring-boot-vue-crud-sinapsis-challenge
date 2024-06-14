@@ -1,4 +1,4 @@
-package com.example.sinapsis_crud;
+package com.example.sinapsis_crud.subestacao;
 
 import org.springframework.data.repository.CrudRepository;
 
