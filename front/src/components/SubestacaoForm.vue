@@ -14,40 +14,19 @@ const router = useRouter()
 
 const codigo = ref('')
 const nome = ref('')
-const latitude = ref('')
-const longitude = ref('')
+const latitude = ref()
+const longitude = ref()
 
 const submitForm = async () => {
-  if (props.isEditing) {
-    const url = `http://localhost:8080/subestacao/update/${props.subestacaoId}`
-    const params = new URLSearchParams({
-      codigo: codigo.value,
-      nome: nome.value,
-      latitude: latitude.value,
-      longitude: longitude.value
-    }).toString()
+  const url = props.isEditing
+    ? `http://localhost:8080/subestacao/update/${props.subestacaoId}?codigo=${codigo.value}&nome=${nome.value}&latitude=${latitude.value}&longitude=${longitude.value}`
+    : `http://localhost:8080/subestacao/add?codigo=${codigo.value}&nome=${nome.value}&latitude=${latitude.value}&longitude=${longitude.value}`
 
-    try {
-      await axios.put(`${url}?${params}`)
-      router.push('/subestacoes')
-    } catch (error) {
-      console.error('Erro ao salvar subestação:', error)
-    }
-  } else {
-    const url = `http://localhost:8080/subestacao/add`
-    const data = {
-      codigo: codigo.value,
-      nome: nome.value,
-      latitude: latitude.value,
-      longitude: longitude.value
-    }
-
-    try {
-      await axios.post(url, data)
-      router.push('/subestacoes')
-    } catch (error) {
-      console.error('Erro ao adicionar subestação:', error)
-    }
+  try {
+    await axios.post(url)
+    router.push('/subestacoes')
+  } catch (error) {
+    console.error('Erro ao salvar subestação:', error)
   }
 }
 
@@ -59,8 +38,8 @@ const loadSubestacao = async () => {
       const subestacao: Subestacao = response.data
       codigo.value = subestacao.codigo
       nome.value = subestacao.nome
-      latitude.value = subestacao.latitude.toString()
-      longitude.value = subestacao.longitude.toString()
+      latitude.value = subestacao.latitude
+      longitude.value = subestacao.longitude
     } catch (error) {
       console.error('Erro ao buscar subestação:', error)
     }
@@ -98,7 +77,7 @@ watch(() => props.subestacaoId, loadSubestacao)
         </div>
         <div class="button-group">
           <button type="button" class="back-button" @click="voltar">Voltar</button>
-          <button type="submit" @click="voltar">
+          <button type="submit">
             {{ isEditing ? 'Salvar Alterações' : 'Adicionar' }}
           </button>
         </div>
