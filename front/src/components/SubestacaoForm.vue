@@ -66,7 +66,7 @@ watch(() => props.subestacaoId, loadSubestacao)
     <div class="content">
       <h1>{{ isEditing ? 'Editar Subestação' : 'Adicionar Nova Subestação' }}</h1>
       <form @submit.prevent="submitForm" class="form">
-        <div>
+        <div v-show="!isEditing">
           <label for="codigo">Código:</label>
           <input type="text" v-model="codigo" id="codigo" required />
         </div>
