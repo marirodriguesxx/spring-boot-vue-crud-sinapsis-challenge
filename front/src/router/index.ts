@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SubestacoesView from '../views/SubestacoesVew.vue'
+import AdicionarSubestacaoView from '../views/AdicionarSubestacaoView.vue'
+import EditarSubestacaoView from '../views/EditarSubestacaoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +16,17 @@ const router = createRouter({
       path: '/subestacoes',
       name: 'subestacoes',
       component: SubestacoesView
+    },
+    {
+      path: '/subestacao/add',
+      name: 'adicionarSubestacao',
+      component: AdicionarSubestacaoView
+    },
+    {
+      path: '/subestacao/edit/:id',
+      name: 'editarSubestacao',
+      component: EditarSubestacaoView,
+      props: true
     },
     {
       path: '/about',

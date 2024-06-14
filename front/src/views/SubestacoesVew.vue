@@ -1,26 +1,39 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 import { getSubestacoes } from '../services/SubestacaoService'
 import type { Subestacao } from '../models/SubestacaoModel'
 
 const subestacoes = ref<Subestacao[]>([])
+const router = useRouter()
 
 onMounted(async () => {
   subestacoes.value = await getSubestacoes()
 })
 
 const alterarSubestacao = (id: number) => {
-  console.log(`Alterar subestação com ID: ${id}`)
+  router.push({ name: 'editarSubestacao', params: { id } })
 }
 
-const excluirSubestacao = (id: number) => {
-  console.log(`Excluir subestação com ID: ${id}`)
+const excluirSubestacao = async (id: number) => {
+  try {
+    await axios.delete(`http://localhost:8080/subestacao/delete/${id}`)
+    subestacoes.value = subestacoes.value.filter((subestacao) => subestacao.id !== id)
+  } catch (error) {
+    console.error(`Erro ao excluir subestação com ID: ${id}`, error)
+  }
 }
 
 const incluirSubestacao = () => {
-  console.log('Incluir nova subestação')
+  router.push({ name: 'adicionarSubestacao' })
+}
+
+const voltarParaLogin = () => {
+  router.push('/')
 }
 </script>
+
 <template>
   <div class="page">
     <div class="content">
@@ -48,35 +61,59 @@ const incluirSubestacao = () => {
         </tbody>
       </table>
     </div>
-    <button class="add-button" @click="incluirSubestacao">Incluir Subestação</button>
+    <div class="button-group">
+      <button class="action-button" @click="voltarParaLogin">Voltar para Login</button>
+      <button class="action-button" @click="incluirSubestacao">Incluir Subestação</button>
+    </div>
   </div>
 </template>
+
 <style scoped>
 .page {
   display: grid;
   place-items: center;
   padding: 1rem;
-  grid-template-rows: min-content min-content;
+  grid-template-rows: auto auto;
   height: 100vh;
   width: 100%;
   background: url('@/assets/electric-grid.jpg') no-repeat center center fixed;
   background-size: cover;
   justify-items: center;
   align-items: center;
-  padding: 1rem;
 }
 
 .content {
   text-align: center;
-  padding: 1rem;
+  color: #000;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-evenly;
+  width: 80%;
+  margin-top: 1rem;
+}
+
+.action-button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #218838;
 }
 
 h1 {
-  color: #000;
   margin-bottom: 1rem;
 }
 
@@ -101,7 +138,7 @@ td {
   padding: 8px;
   text-align: center;
   border: 1px solid #ddd;
-  white-space: nowrap; /* Evita quebra de linha */
+  white-space: nowrap;
 }
 
 th {
@@ -110,28 +147,12 @@ th {
 }
 
 button {
-  margin-right: 5px;
-  margin: 1rem;
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  margin: 0.5rem;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-
-.add-button {
-  align-self: end;
-  background-color: #28a745;
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-.add-button:hover {
-  background-color: #218838;
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 </style>

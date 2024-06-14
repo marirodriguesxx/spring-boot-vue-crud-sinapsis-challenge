@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { useLogin } from '../composables/useLogin'
+
+const { username, password, handleSubmit } = useLogin()
+const router = useRouter()
+
+const handleLogin = async () => {
+  await handleSubmit()
+  router.push({ name: 'subestacoes' })
+}
+</script>
+
 <template>
   <div class="login-box">
     <form @submit.prevent="handleLogin">
@@ -14,28 +27,15 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { useLogin } from '../composables/useLogin'
-
-const { username, password, handleSubmit } = useLogin()
-const router = useRouter()
-
-const handleLogin = async () => {
-  await handleSubmit() // Supondo que isso realiza a lógica de login
-  router.push({ name: 'subestacoes' })
-}
-</script>
-
 <style scoped>
 .login-box {
   max-width: 400px;
   width: 100%;
   padding: 2em;
   color: black;
-  background: white; /* Fundo branco */
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   margin: auto;
 }
 
