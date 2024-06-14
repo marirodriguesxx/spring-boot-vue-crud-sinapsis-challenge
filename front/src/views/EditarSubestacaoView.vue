@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router'
 import SubestacaoForm from '../components/SubestacaoForm.vue'
 
 const route = useRoute()
-const subestacaoId = Number(route.params.id) // Convertendo o ID para número
+const subestacaoId = Number(route.params.id)
 </script>
 
 <template>
