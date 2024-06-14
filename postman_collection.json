@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "457b2cd2-dc3a-49b6-bc35-7a02f9f6bc00",
+		"name": "Sinapsis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34405535"
+	},
+	"item": [
+		{
+			"name": "postRede",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rede/add?subestacao=1&codigo=codigo rede 1&nome=nome rede 1&tensaoNominal=45.76",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rede",
+						"add"
+					],
+					"query": [
+						{
+							"key": "subestacao",
+							"value": "1"
+						},
+						{
+							"key": "codigo",
+							"value": "codigo rede 1"
+						},
+						{
+							"key": "nome",
+							"value": "nome rede 1"
+						},
+						{
+							"key": "tensaoNominal",
+							"value": "45.76"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getallRedes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rede/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rede",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postSubestacao",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"codigo\": \"Codigo 1\",\n\t\"nome\": \"subestacao 1\",\n    \"latitude\": \"1.5\",\n    \"longitude\": \"2.0\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/subestacao/add?codigo=codigo subestacao2&nome=subestacao2&latitude=23.45&longitude=2.34",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subestacao",
+						"add"
+					],
+					"query": [
+						{
+							"key": "codigo",
+							"value": "codigo subestacao2"
+						},
+						{
+							"key": "nome",
+							"value": "subestacao2"
+						},
+						{
+							"key": "latitude",
+							"value": "23.45"
+						},
+						{
+							"key": "longitude",
+							"value": "2.34"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllSubestacoes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"codigo\": \"testsa\",\n        \"nome\": \"cskdm\",\n        \"latitude\": \"1.50\",\n        \"longitude\": \"2.00\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/subestacao/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"subestacao",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
